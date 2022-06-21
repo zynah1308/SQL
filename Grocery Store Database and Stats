@@ -1,0 +1,31 @@
+--Create a grocery store database
+
+CREATE TABLE grocery (id INTEGER PRIMARY KEY, name TEXT, quantity INTEGER, aisle INTEGER, price INTEGER);
+
+INSERT INTO grocery VALUES (1, "Milk", 12, 4, 5);
+INSERT INTO grocery VALUES (2, "Eggs", 9, 5, 3);
+INSERT INTO grocery VALUES (3, "Bread", 7, 2, 6);
+INSERT INTO grocery VALUES (4, "Butter", 15, 7, 4);
+INSERT INTO grocery VALUES (5, "Sugar", 9, 10, 1);
+INSERT INTO grocery VALUES (6, "Flour", 5, 10, 1);
+INSERT INTO grocery VALUES (7, "Apples", 18, 3, 6);
+INSERT INTO grocery VALUES (8, "Carrots", 8, 3, 3);
+INSERT INTO grocery VALUES (9, "Bananas", 7, 3, 1);
+INSERT INTO grocery VALUES (10, "Chocolate", 13, 1, 2);
+INSERT INTO grocery VALUES (11, "Chips", 8, 1, 4);
+INSERT INTO grocery VALUES (12, "Juice", 6, 4, 2);
+INSERT INTO grocery VALUES (13, "Mangos", 5, 3, 8);
+INSERT INTO grocery VALUES (14, "Mustard", 4, 11, 2);
+INSERT INTO grocery VALUES (15, "Coke", 7, 4, 6);
+
+--display the entire database
+SELECT * FROM grocery;
+
+--display database ordered by price
+SELECT * FROM grocery ORDER BY price;
+
+--What is the total number of items in the store
+SELECT SUM (quantity) FROM grocery;
+
+--What is the total number of items in each aisle
+SELECT aisle, SUM (quantity) FROM grocery GROUP BY aisle; 

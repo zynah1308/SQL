@@ -436,4 +436,10 @@ SELECT MIN(Birth_Date) FROM astronauts WHERE Status = "Active";
 
 SELECT COUNT(Name) AS Quantity, Year FROM astronauts GROUP BY Year HAVING Quantity >=30;
 
+/*Active Status Female Astronaut with More than 3 Space Flights AND More than 3 Space Walks*/
 
+SELECT Name FROM astronauts WHERE Status="Active" AND Space_Flights >=3 AND Space_Walks >=3 AND Gender= "Female";
+
+/*List of Female Astronauts with more than 5 Space_Flight or Space_Walks*/
+
+SELECT Name FROM astronauts WHERE Space_Flights>5 OR Space_Walks>5 AND Gender = "Female";

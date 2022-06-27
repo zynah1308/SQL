@@ -1,0 +1,73 @@
+/* Create table about Movie Stars and their movies  */
+ 
+/*Table of movie stars and their general information*/
+
+CREATE TABLE movie_stars (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+full_name TEXT, 
+gender TEXT,
+age INTEGER); 
+
+INSERT INTO movie_stars(full_name, gender,age) VALUES ("Johnny Depp", "Male", "59");
+INSERT INTO movie_stars(full_name, gender,age) VALUES("Tom Cruise", "Male", "59");
+INSERT INTO movie_stars(full_name, gender,age) VALUES("Julia Roberts", "Female", "54");
+INSERT INTO movie_stars(full_name, gender,age) VALUES ("Nicole Kidman", "Female", "55");
+INSERT INTO movie_stars(full_name, gender,age) VALUES ("Brad Pitt", "Male", "58");
+INSERT INTO movie_stars(full_name, gender,age) VALUES ("Angelina Jolie" , "Female", "47");
+
+/*List of movies and movie star IDs*/
+
+CREATE TABLE movies (id INTEGER PRIMARY KEY AUTOINCREMENT, person_id INTEGER, movie_name TEXT);
+
+INSERT INTO movies (person_id, movie_name) VALUES ("1", "The Tourist");
+INSERT INTO movies (person_id, movie_name) VALUES ("2", "Eyes Wide Shut");
+INSERT INTO movies (person_id, movie_name) VALUES ("3", "Larry Crowne");
+INSERT INTO movies (person_id, movie_name) VALUES ("4", "Eyes Wide Shut");
+INSERT INTO movies (person_id, movie_name) VALUES ("4", "Bewitched");
+INSERT INTO movies (person_id, movie_name) VALUES ("5", "By the Sea");
+INSERT INTO movies (person_id, movie_name) VALUES ("6", "By the Sea");
+
+
+
+
+INSERT INTO movies (person_id, movie_name) VALUES ("6", "The Tourist");
+
+
+/*Table of movies in which actors have worked together*/
+
+CREATE TABLE worked_together (id INTEGER PRIMARY KEY AUTOINCREMENT, movie_starid1 INTEGER, movie_starid2 INTEGER);
+
+INSERT INTO worked_together (movie_starid1, movie_starid2) VALUES ("5", "6");
+INSERT INTO worked_together (movie_starid1, movie_starid2) VALUES ("2", "4");
+INSERT INTO worked_together (movie_starid1, movie_starid2) VALUES ("1", "6");
+
+
+
+
+/*Movie star names and their movies*/
+
+SELECT ms.full_name, m.movie_name  
+FROM movie_stars AS ms
+LEFT OUTER JOIN movies AS m
+ON ms.id = m.person_id;
+
+/*Only the name and movies of Angeline Jolie*/
+
+SELECT * FROM movie_stars
+JOIN movies
+ON movie_stars.id = movies.person_id
+WHERE full_name = "Angelina Jolie";
+
+/*Show actors who have worked together*/
+
+SELECT ms1.full_name, ms2.full_name FROM worked_together AS wt
+JOIN movie_stars AS ms1
+ON ms1.id = wt.movie_starid1
+JOIN movie_stars AS ms2
+ON ms2.id = wt.movie_starid2;
+
+
+/*List of female actresses with their age and movie */
+
+SELECT ms.full_name, ms.age, m.movie_name FROM movie_stars AS ms
+JOIN movies AS m
+ON ms.id = m.person_id WHERE Gender = "Female";

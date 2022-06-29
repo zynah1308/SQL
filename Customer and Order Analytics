@@ -50,5 +50,4 @@ SELECT COUNT(cust.acctnum), AVG(price*quantity)
 FROM BIT_DB.customers AS cust
 INNER JOIN BIT_DB.FebSales AS feb
 ON cust.order_id=feb.orderID
-WHERE feb.quantity>2
-;
+WHERE feb.quantity>2;

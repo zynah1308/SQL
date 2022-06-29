@@ -22,6 +22,9 @@ ON c.order_id=f.orderid;
 
 SELECT DISTINCT product, MIN(price)
 FROM BIT_DB.JanSales
+GROUP BY product
+ORDER by price ASC
+LIMIT 1
 ;
 #OR
 

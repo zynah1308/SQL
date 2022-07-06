@@ -1,0 +1,162 @@
+/*In this file, I examine a dataset called chinook, which represents a digital media store and includes tables for artists, albums, media tracks, invoices, and customers. See my work below/*/
+
+
+#1.
+/*Show customers not from US*/
+
+SELECT * 
+FROM chinook.customers 
+WHERE Country NOT IN  ("USA")
+;
+
+
+#2.
+/*How many customers are from each country and order by country with the most customers.*/
+
+SELECT FirstName, LastName, Country, Count(Country) AS Customer_count
+FROM chinook.customers 
+GROUP BY Country
+ORDER BY Customer_count DESC
+;
+
+
+#3.
+/*Show customers only from Canada*/
+
+SELECT * 
+FROM chinook.customers 
+WHERE Country = "Canada"
+;
+
+
+#4.
+/*Find the Invoices of customers who are from Canada. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.*/
+
+SELECT c.firstname, c.lastname,i.invoiceid, i.invoicedate,i.billingcountry
+FROM chinook.invoices AS i
+LEFT JOIN chinook.customers  AS c
+ON i.customerid = c.customerid
+WHERE c.country = "Canada"
+;
+
+#5.
+/*Show the Employees who are Sales Agents*/
+
+SELECT *
+FROM chinook.employees
+WHERE Title = "Sales Support Agent"
+;
+
+#6.
+/*Find a unique/distinct list of billing countries from the Invoice table*/
+
+SELECT distinct BillingCountry 
+FROM chinook.invoices
+;
+
+
+#7.
+/*Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name*/
+
+SELECT i.invoiceid, e.employeeid, e.lastname, e.firstname, e.title
+FROM chinook.invoices AS i
+JOIN chinook.employees AS e
+ON i.invoiceid = e.employeeid
+WHERE title = "Sales Support Agent"
+;
+
+
+#8.
+/*Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers*/
+
+SELECT c.firstname AS Cus_first_name, c.lastname AS Cus_last_name, c.country AS Cus_country, e.firstname AS Employee_first_name, e.lastname AS Employee_last_name, i.total AS Invoice_total  
+FROM chinook.invoices AS i
+JOIN chinook.customers AS c
+ON i.invoiceid = c.customerid
+JOIN chinook.employees AS e
+ON e.employeeid = c.supportrepid
+;
+
+
+#9.
+/*How many Invoices were there in 2009?*/
+
+SELECT Count (invoicedate)
+FROM chinook.invoices
+WHERE invoicedate LIKE "%2009%"
+;
+
+#10.
+/*What are the total sales for 2009?*/
+
+SELECT SUM(Total)
+FROM chinook.invoices
+WHERE invoicedate LIKE "%2009%"
+;
+
+#11.
+/*Write a query that includes the purchased track name with each invoice line item*/
+
+SELECT it.invoicelineid, t.name
+FROM chinook.tracks AS t
+JOIN chinook.invoice_items AS it
+ON t.trackid = it.trackid
+;
+
+
+#12.
+/*Write a query that includes the purchased track name AND artist name with each invoice line item*/
+
+SELECT it.invoicelineid, t.name, t.composer AS Artist
+FROM chinook.tracks AS t
+JOIN chinook.invoice_items AS it
+ON t.trackid = it.trackid
+;
+
+
+#13.
+/*Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre*/
+
+SELECT t.name AS Track_name, al.Title AS Album_title, mt.name AS Media_type, g.name AS Genre
+FROM chinook.tracks AS t
+JOIN chinook.albums AS al
+ON t.albumid = al.albumid
+JOIN chinook.media_types AS mt
+ON t.mediatypeid = mt.mediatypeid
+JOIN chinook.genres AS g
+ON t.genreid = g.genreid 
+;
+
+
+#14.
+/*Show the total sales made by each sales agent*/
+
+SELECT emp.employeeid, emp.firstname, emp.lastname, ROUND (SUM(i.total)) AS Total_sales
+FROM chinook.customers AS cus
+JOIN chinook.employees AS emp
+ON cus.supportrepid = emp.employeeid
+JOIN chinook.invoices AS i
+ON i.customerid = cus.customerid
+WHERE emp.title = "Sales Support Agent"
+GROUP BY emp.employeeid
+;
+
+
+15.
+/*Which sales agent made the most in sales in 2009?*/
+
+SELECT emp.employeeid, emp.firstname, emp.lastname, ROUND (SUM(i.total)) AS Total_sales
+FROM chinook.customers AS cus
+JOIN chinook.employees AS emp
+ON cus.supportrepid = emp.employeeid
+JOIN chinook.invoices AS i
+ON i.customerid = cus.customerid
+WHERE emp.title = "Sales Support Agent" AND i.invoicedate LIKE "%2009%"
+GROUP BY emp.employeeid
+ORDER BY Total_sales DESC
+LIMIT 1
+;
+
+
+
+
